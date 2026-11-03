@@ -1,0 +1,7 @@
+@model IReadOnlyList<Lead>
+@{ ViewData["Title"] = "Lead report"; var converted = Model.Count(item => item.Status == LeadStatus.Converted); var rate = Model.Count == 0 ? 0 : converted * 100d / Model.Count; }
+<div class="d-flex justify-content-between align-items-center mb-4"><div><h1 class="h3 mb-1">Lead report</h1><p class="text-secondary mb-0">@Model.Count leads · @converted converted (@rate.ToString("0.0")%)</p></div><button class="btn btn-outline-secondary" onclick="window.print()">Print</button></div>
+<div class="card"><div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Lead</th><th>Source</th><th>Status</th><th>Priority</th><th>Expected value</th><th>Created</th></tr></thead><tbody>
+@foreach (var item in Model) { <tr><td>@item.Name</td><td>@item.Source</td><td>@item.Status</td><td>@item.Priority</td><td>@item.ExpectedValue.ToString("C")</td><td>@item.CreatedDate.ToLocalTime().ToString("d")</td></tr> }
+@if (Model.Count == 0) { <tr><td colspan="6" class="text-center text-secondary py-5">No leads found.</td></tr> }
+</tbody></table></div></div>

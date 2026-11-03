@@ -1,0 +1,7 @@
+@model IReadOnlyList<Opportunity>
+@{ ViewData["Title"] = "Pipeline report"; }
+<div class="d-flex justify-content-between align-items-center mb-4"><div><h1 class="h3 mb-1">Pipeline report</h1><p class="text-secondary mb-0">Open pipeline: @(((decimal)ViewData["PipelineTotal"]!).ToString("C")) · Weighted: @(((decimal)ViewData["WeightedTotal"]!).ToString("C"))</p></div><button class="btn btn-outline-secondary" onclick="window.print()">Print</button></div>
+<div class="card"><div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Opportunity</th><th>Stage</th><th>Amount</th><th>Probability</th><th>Weighted</th><th>Expected close</th></tr></thead><tbody>
+@foreach (var item in Model) { <tr><td>@item.Name</td><td>@item.Stage</td><td>@item.Amount.ToString("C")</td><td>@item.Probability%</td><td>@item.WeightedPipeline.ToString("C")</td><td>@item.ExpectedCloseDate.ToLocalTime().ToString("d")</td></tr> }
+@if (Model.Count == 0) { <tr><td colspan="6" class="text-center text-secondary py-5">No opportunities found.</td></tr> }
+</tbody></table></div></div>

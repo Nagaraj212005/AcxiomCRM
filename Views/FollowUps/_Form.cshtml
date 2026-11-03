@@ -1,0 +1,12 @@
+@model FollowUp
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div><input asp-for="Id" type="hidden" />
+<div class="row g-3">
+<div class="col-md-8"><label asp-for="Subject" class="form-label"></label><input asp-for="Subject" class="form-control" /><span asp-validation-for="Subject" class="text-danger"></span></div>
+<div class="col-md-4"><label asp-for="Type" class="form-label"></label><select asp-for="Type" asp-items="Html.GetEnumSelectList<FollowUpType>()" class="form-select"></select></div>
+<div class="col-md-4"><label asp-for="Status" class="form-label"></label><select asp-for="Status" asp-items="Html.GetEnumSelectList<FollowUpStatus>()" class="form-select"></select></div>
+<div class="col-md-4"><label asp-for="FollowUpDate" class="form-label"></label><input asp-for="FollowUpDate" type="datetime-local" class="form-control" /><span asp-validation-for="FollowUpDate" class="text-danger"></span></div>
+<div class="col-md-4"><label asp-for="CustomerId" class="form-label"></label><input asp-for="CustomerId" class="form-control" /></div>
+<div class="col-md-4"><label asp-for="LeadId" class="form-label"></label><input asp-for="LeadId" class="form-control" /></div>
+<div class="col-md-4"><label asp-for="OpportunityId" class="form-label"></label><input asp-for="OpportunityId" class="form-control" /></div>
+<div class="col-12"><label asp-for="Notes" class="form-label"></label><textarea asp-for="Notes" class="form-control" rows="3"></textarea></div>
+</div>

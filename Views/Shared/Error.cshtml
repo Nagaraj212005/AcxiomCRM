@@ -1,0 +1,16 @@
+﻿@model ErrorViewModel
+@{
+    ViewData["Title"] = "Error";
+}
+
+<section class="empty-state error-state">
+    <div class="empty-icon"><i class="bi bi-exclamation-triangle"></i></div>
+    <p class="eyebrow mb-2">SERVER ERROR</p>
+    <h1 class="page-title">Something went wrong</h1>
+    <p class="text-secondary">The request could not be completed. Please try again.</p>
+    @if (Model.ShowRequestId)
+    {
+        <p class="small text-secondary">Reference: <code>@Model.RequestId</code></p>
+    }
+    <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Return to dashboard</a>
+</section>

@@ -1,0 +1,7 @@
+@model IReadOnlyList<FollowUp>
+@{ ViewData["Title"] = "Follow-ups"; }
+<div class="d-flex justify-content-between align-items-center mb-4"><div><h1 class="h3 mb-1">Follow-ups</h1><p class="text-secondary mb-0">Plan and complete customer engagement.</p></div><a asp-action="Create" class="btn btn-primary">Schedule follow-up</a></div>
+<div class="card"><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>Subject</th><th>Type</th><th>Status</th><th>Due</th><th>Customer</th><th>Lead</th><th></th></tr></thead><tbody>
+@foreach (var item in Model) { <tr><td>@item.Subject</td><td>@item.Type</td><td><span class="badge text-bg-light">@item.Status</span></td><td>@item.FollowUpDate.ToString("g")</td><td>@item.CustomerId</td><td>@item.LeadId</td><td class="text-nowrap"><a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Edit</a><form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this follow-up?');"><button class="btn btn-sm btn-outline-danger">Delete</button></form></td></tr> }
+@if (Model.Count == 0) { <tr><td colspan="7" class="text-center text-secondary py-5">No follow-ups scheduled.</td></tr> }
+</tbody></table></div></div>

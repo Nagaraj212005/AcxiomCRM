@@ -1,0 +1,27 @@
+﻿@model Customer
+@{
+    ViewData["Title"] = "Customer details";
+}
+<div class="page-heading">
+    <div><p class="eyebrow mb-2">CUSTOMER</p><h1 class="page-title">@Model.Name</h1><p class="text-secondary mb-0">Customer details and contact information.</p></div>
+    <div class="d-flex gap-2">
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id"><i class="bi bi-pencil me-2"></i>Edit</a>
+        <a class="btn btn-light" asp-action="Index">Back to customers</a>
+    </div>
+</div>
+<section class="detail-panel">
+    <div class="row">
+        <div class="col-md-6"><div class="detail-label">Company</div><div class="detail-value">@(string.IsNullOrWhiteSpace(Model.Company) ? "—" : Model.Company)</div></div>
+        <div class="col-md-6"><div class="detail-label">Status</div><div class="detail-value"><span class="badge rounded-pill status-@Model.Status.ToString().ToLowerInvariant()">@Model.Status</span></div></div>
+        <div class="col-md-6"><div class="detail-label">Email</div><div class="detail-value">@(string.IsNullOrWhiteSpace(Model.Email) ? "—" : Model.Email)</div></div>
+        <div class="col-md-6"><div class="detail-label">Phone</div><div class="detail-value">@(string.IsNullOrWhiteSpace(Model.Phone) ? "—" : Model.Phone)</div></div>
+        <div class="col-md-6"><div class="detail-label">Added</div><div class="detail-value">@Model.CreatedDate.ToLocalTime().ToString("MMMM d, yyyy")</div></div>
+        <div class="col-md-6"><div class="detail-label">Address</div><div class="detail-value">@(string.IsNullOrWhiteSpace(Model.Address) ? "—" : Model.Address)</div></div>
+        <div class="col-md-6"><div class="detail-label">City</div><div class="detail-value">@(string.IsNullOrWhiteSpace(Model.City) ? "—" : Model.City)</div></div>
+        <div class="col-md-6"><div class="detail-label">State / province</div><div class="detail-value">@(string.IsNullOrWhiteSpace(Model.State) ? "—" : Model.State)</div></div>
+        <div class="col-md-6"><div class="detail-label">Country</div><div class="detail-value">@(string.IsNullOrWhiteSpace(Model.Country) ? "—" : Model.Country)</div></div>
+        <div class="col-md-6"><div class="detail-label">Next follow-up</div><div class="detail-value">@(Model.NextFollowUpDate?.ToLocalTime().ToString("MMMM d, yyyy") ?? "—")</div></div>
+        <div class="col-md-6"><div class="detail-label">Last updated</div><div class="detail-value">@(Model.UpdatedDate?.ToLocalTime().ToString("MMMM d, yyyy") ?? "—")</div></div>
+        <div class="col-12"><div class="detail-label">Notes</div><div class="detail-value">@(string.IsNullOrWhiteSpace(Model.Notes) ? "—" : Model.Notes)</div></div>
+    </div>
+</section>

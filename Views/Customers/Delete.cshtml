@@ -1,0 +1,15 @@
+﻿@model Customer
+@{
+    ViewData["Title"] = "Delete customer";
+}
+<div class="page-heading">
+    <div><p class="eyebrow mb-2">CUSTOMERS</p><h1 class="page-title">Delete customer</h1><p class="text-secondary mb-0">This action cannot be undone.</p></div>
+</div>
+<section class="detail-panel">
+    <h2 class="h5 mb-2">Delete @Model.Name?</h2>
+    <p class="text-secondary">The customer record and its contact details will be permanently removed.</p>
+    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-flex gap-2 mt-4" data-loading>
+        <button type="submit" class="btn btn-danger"><i class="bi bi-trash me-2"></i>Delete customer</button>
+        <a asp-action="Index" class="btn btn-light">Cancel</a>
+    </form>
+</section>

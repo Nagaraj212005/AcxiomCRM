@@ -1,0 +1,8 @@
+@model Lead
+@{ ViewData["Title"] = "Edit lead"; }
+<h1 class="h3 mb-4">Edit lead</h1>
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="card card-body">
+    <partial name="_Form" model="Model" />
+    <div class="mt-4"><button class="btn btn-primary" type="submit">Save changes</button> <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a></div>
+</form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

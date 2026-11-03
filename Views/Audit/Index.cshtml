@@ -1,0 +1,16 @@
+@model IReadOnlyList<AuditLog>
+@{ ViewData["Title"] = "Audit log"; var modules = ViewData["Modules"] as IReadOnlyList<string> ?? []; var actions = ViewData["Actions"] as IReadOnlyList<string> ?? []; }
+<div class="mb-4"><h1 class="h3 mb-1">Audit log</h1><p class="text-secondary mb-0">Security and business actions recorded by the CRM.</p></div>
+<form method="get" class="card card-body mb-4"><div class="row g-2 align-items-end">
+<div class="col-md-3"><label class="form-label" for="user">User</label><input id="user" name="user" value="@ViewData["UserFilter"]" class="form-control" /></div>
+<div class="col-md-2"><label class="form-label" for="module">Module</label><select id="module" name="module" class="form-select"><option value="">All</option>@foreach (var item in modules) { <option value="@item" selected="@(item == ViewData["ModuleFilter"]?.ToString())">@item</option> }</select></div>
+<div class="col-md-2"><label class="form-label" for="action">Action</label><select id="action" name="action" class="form-select"><option value="">All</option>@foreach (var item in actions) { <option value="@item" selected="@(item == ViewData["ActionFilter"]?.ToString())">@item</option> }</select></div>
+<div class="col-md-2"><label class="form-label" for="from">From</label><input id="from" name="from" type="date" value="@ViewData["FromFilter"]" class="form-control" /></div>
+<div class="col-md-2"><label class="form-label" for="to">To</label><input id="to" name="to" type="date" value="@ViewData["ToFilter"]" class="form-control" /></div>
+<div class="col-md-1"><button class="btn btn-primary w-100">Filter</button></div>
+</div></form>
+<div class="card"><div class="table-responsive"><table class="table table-sm align-middle mb-0"><thead><tr><th>Date</th><th>User</th><th>Action</th><th>Module</th><th>Record</th><th>Result</th><th>Details</th><th>IP</th></tr></thead><tbody>
+@foreach (var item in Model) { <tr><td class="text-nowrap">@item.CreatedDate.ToLocalTime().ToString("g")</td><td>@item.UserName</td><td>@item.Action</td><td>@item.Module</td><td>@item.EntityName @item.RecordId</td><td>@item.Result</td><td>@item.Details</td><td>@item.IpAddress</td></tr> }
+@if (Model.Count == 0) { <tr><td colspan="8" class="text-center text-secondary py-5">No audit entries match the selected filters.</td></tr> }
+</tbody></table></div></div>
+<div class="mt-3 d-flex justify-content-between"><span class="text-secondary">@(ViewData["TotalCount"]) total records</span>@if ((int)ViewData["TotalPages"]! > 1) { <nav aria-label="Audit pages"><ul class="pagination pagination-sm">@for (var index = 1; index <= (int)ViewData["TotalPages"]!; index++) { <li class="page-item @(index == (int)ViewData["Page"]! ? "active" : "")"><a class="page-link" asp-route-page="@index" asp-route-user="@ViewData["UserFilter"]" asp-route-module="@ViewData["ModuleFilter"]" asp-route-action="@ViewData["ActionFilter"]" asp-route-from="@ViewData["FromFilter"]" asp-route-to="@ViewData["ToFilter"]">@index</a></li> }</ul></nav> }</div>

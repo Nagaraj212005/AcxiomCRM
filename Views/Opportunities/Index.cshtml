@@ -1,0 +1,7 @@
+@model IReadOnlyList<Opportunity>
+@{ ViewData["Title"] = "Opportunities"; }
+<div class="d-flex justify-content-between align-items-center mb-4"><div><h1 class="h3 mb-1">Opportunities</h1><p class="text-secondary mb-0">Track deals through your sales pipeline.</p></div><a asp-action="Create" class="btn btn-primary">Add opportunity</a></div>
+<div class="card"><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>Opportunity</th><th>Stage</th><th>Amount</th><th>Probability</th><th>Weighted value</th><th>Expected close</th><th></th></tr></thead><tbody>
+@foreach (var item in Model) { <tr><td>@item.Name</td><td>@item.Stage</td><td>@item.Amount.ToString("C")</td><td>@item.Probability%</td><td>@item.WeightedPipeline.ToString("C")</td><td>@item.ExpectedCloseDate.ToString("d")</td><td class="text-nowrap"><a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Edit</a><form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this opportunity?');"><button class="btn btn-sm btn-outline-danger">Delete</button></form></td></tr> }
+@if (Model.Count == 0) { <tr><td colspan="7" class="text-center text-secondary py-5">No opportunities yet.</td></tr> }
+</tbody></table></div></div>

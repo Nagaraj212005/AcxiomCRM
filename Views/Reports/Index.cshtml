@@ -1,0 +1,70 @@
+﻿@model CustomerReportViewModel
+@{
+    ViewData["Title"] = "Customer report";
+    var filters = new Dictionary<string, string?>();
+    if (!string.IsNullOrWhiteSpace(Model.Search)) { filters["search"] = Model.Search; }
+    if (Model.Status.HasValue) { filters["status"] = Model.Status.Value.ToString(); }
+    if (!string.IsNullOrWhiteSpace(Model.City)) { filters["city"] = Model.City; }
+}
+
+<div class="page-heading">
+    <div><p class="eyebrow mb-2">INSIGHTS</p><h1 class="page-title">Customer report</h1><p class="text-secondary mb-0">Filter and export your customer records.</p></div>
+    <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-outline-secondary" asp-action="Csv" asp-all-route-data="filters"><i class="bi bi-filetype-csv me-2"></i>Export CSV</a>
+        <a class="btn btn-outline-secondary" asp-action="Excel" asp-all-route-data="filters"><i class="bi bi-file-earmark-spreadsheet me-2"></i>Export Excel</a>
+        <button class="btn btn-primary" type="button" onclick="window.print()"><i class="bi bi-printer me-2"></i>Print</button>
+    </div>
+</div>
+<div class="d-flex flex-wrap gap-2 mb-4">
+    <a class="btn btn-light" asp-action="Leads">Lead report</a>
+    <a class="btn btn-light" asp-action="Opportunities">Pipeline report</a>
+    <a class="btn btn-light" asp-action="FollowUps">Follow-up report</a>
+    <a class="btn btn-light" asp-action="Activity">User activity</a>
+</div>
+<section class="panel">
+    <div class="panel-header flex-wrap">
+        <div><h2 class="panel-title">Customer records</h2><p class="text-secondary small mb-0">@Model.Customers.Count records</p></div>
+        <form asp-action="Index" method="get" class="d-flex flex-wrap gap-2" role="search">
+            <input name="search" value="@Model.Search" class="form-control" placeholder="Search..." aria-label="Search customers" />
+            <select name="status" class="form-select" aria-label="Filter by status">
+                <option value="">All statuses</option>
+                @foreach (var value in Enum.GetValues<CustomerStatus>())
+                {
+                    <option value="@value" selected="@(Model.Status == value)">@value</option>
+                }
+            </select>
+            <select name="city" class="form-select" aria-label="Filter by city">
+                <option value="">All cities</option>
+                @foreach (var value in Model.Cities)
+                {
+                    <option value="@value" selected="@(Model.City == value)">@value</option>
+                }
+            </select>
+            <button type="submit" class="btn btn-outline-secondary"><i class="bi bi-funnel me-1"></i>Filter</button>
+        </form>
+    </div>
+    @if (Model.Customers.Count == 0)
+    {
+        <div class="empty-state"><div class="empty-icon"><i class="bi bi-clipboard-data"></i></div><h3>No matching records</h3><p class="text-secondary mb-0">Try changing your report filters.</p></div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead><tr><th>Customer</th><th>Company</th><th>Email</th><th>City</th><th>Status</th><th>Created</th><th>Follow-up</th></tr></thead>
+                <tbody>
+                    @foreach (var customer in Model.Customers)
+                    {
+                        <tr>
+                            <td><a class="table-primary-link" asp-controller="Customers" asp-action="Details" asp-route-id="@customer.Id">@customer.Name</a></td>
+                            <td>@customer.Company</td><td>@customer.Email</td><td>@customer.City</td>
+                            <td><span class="badge rounded-pill status-@customer.Status.ToString().ToLowerInvariant()">@customer.Status</span></td>
+                            <td>@customer.CreatedDate.ToLocalTime().ToString("MMM d, yyyy")</td>
+                            <td>@(customer.NextFollowUpDate?.ToLocalTime().ToString("MMM d, yyyy") ?? "—")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
